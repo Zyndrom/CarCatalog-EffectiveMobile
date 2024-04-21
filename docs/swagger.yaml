@@ -1,0 +1,191 @@
+basePath: /
+definitions:
+  model.Car:
+    properties:
+      id:
+        example: 1
+        type: integer
+      mark:
+        example: Lada
+        type: string
+      model:
+        example: Vesta
+        type: string
+      owner:
+        $ref: '#/definitions/model.People'
+      regNum:
+        example: X123XX150
+        type: string
+      year:
+        example: 2002
+        type: integer
+    type: object
+  model.People:
+    properties:
+      id:
+        example: 1
+        type: integer
+      name:
+        example: string
+        type: string
+      patronymic:
+        example: string
+        type: string
+      surname:
+        example: string
+        type: string
+    type: object
+externalDocs:
+  description: OpenAPI
+  url: https://swagger.io/resources/open-api/
+host: localhost:8080
+info:
+  contact: {}
+  description: Cars Catalog.
+  title: Cars Catalog
+  version: "1.0"
+paths:
+  /car/update:
+    post:
+      consumes:
+      - application/json
+      description: Update car by Id
+      parameters:
+      - description: Change car date from body by id
+        in: body
+        name: car
+        required: true
+        schema:
+          $ref: '#/definitions/model.Car'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Car Updated
+        "400":
+          description: Bad request
+        "500":
+          description: Internal Server Error
+      summary: Update Car
+      tags:
+      - Cars
+  /cars:
+    delete:
+      consumes:
+      - application/json
+      description: Delete car by Id
+      parameters:
+      - description: Car Id
+        in: body
+        name: id
+        required: true
+        schema:
+          type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Car deleted
+        "400":
+          description: Bad request
+        "500":
+          description: Internal Server Error
+      summary: Delete Car
+      tags:
+      - Cars
+    get:
+      consumes:
+      - application/json
+      description: 'Return cars. param=constant:value for filter. Equal by default.
+        Constant: <br>lt = lower than <br>ltq = lower than equal <br>gt = Greater
+        Than <br>gtq = Greater Than Equal<br> between = Between'
+      parameters:
+      - description: Limit on cars in response
+        in: query
+        name: limit
+        type: string
+      - description: Offset from begin
+        in: query
+        name: offset
+        type: string
+      - description: Order desc or asc
+        in: query
+        name: order
+        type: string
+      - description: car id
+        in: query
+        name: id
+        type: string
+      - description: Car mark
+        in: query
+        name: mark
+        type: string
+      - description: Car model
+        in: query
+        name: model
+        type: string
+      - description: year
+        in: query
+        name: year
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Return array of cars
+          schema:
+            $ref: '#/definitions/model.Car'
+        "400":
+          description: Bad request
+      summary: Get Cars
+      tags:
+      - Cars
+    post:
+      consumes:
+      - application/json
+      description: Add cars by regional number
+      parameters:
+      - description: Cars regional numbers
+        in: body
+        name: regNum
+        required: true
+        schema:
+          type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Cars added
+        "400":
+          description: Bad request
+      summary: Add Cars
+      tags:
+      - Cars
+  /people/update:
+    post:
+      consumes:
+      - application/json
+      description: Update people by Id
+      parameters:
+      - description: Change people date from body by id
+        in: body
+        name: people
+        required: true
+        schema:
+          $ref: '#/definitions/model.People'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: People Updated
+        "400":
+          description: Bad request
+        "500":
+          description: Internal Server Error
+      summary: Update people
+      tags:
+      - Peoples
+securityDefinitions:
+  BasicAuth:
+    type: basic
+swagger: "2.0"
